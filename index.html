@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html lang="ms">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
+<meta name="theme-color" content="#0f766e">
+<title>eParcel Koperasi MRSM SAS</title>
+<script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
+<style>
+:root{
+  --pri:#0f766e; --pri-d:#115e59; --pri-l:#ccfbf1; --bg:#f1f5f9; --card:#fff; --txt:#0f172a; --mut:#64748b;
+  --line:#e2e8f0; --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --r:14px;
+}
+*{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
+html,body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px}
+body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+.hidden{display:none!important}
+
+/* Header */
+header{background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px;text-align:center;position:sticky;top:0;z-index:20}
+header img{height:44px;display:block;margin:0 auto 4px}
+header h1{margin:0;font-size:16px;font-weight:700;color:var(--pri-d)}
+header small{color:var(--mut);font-size:12px}
+.userbar{display:flex;justify-content:center;gap:8px;align-items:center;margin-top:4px;font-size:12px;color:var(--mut)}
+.chip{background:var(--pri-l);color:var(--pri-d);padding:2px 10px;border-radius:99px;font-weight:600}
+
+main{max-width:720px;margin:0 auto;padding:14px}
+.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
+.card h2{margin:0 0 12px;font-size:16px}
+label{display:block;font-size:12.5px;font-weight:600;color:var(--mut);margin:12px 0 4px}
+input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:#fff;color:var(--txt)}
+input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);outline-offset:0;border-color:var(--pri)}
+textarea{resize:vertical;min-height:60px}
+.row{display:flex;gap:8px}
+.row>*{flex:1}
+.row .fix{flex:0 0 auto}
+.btn{border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer;background:var(--pri);color:#fff;width:100%}
+.btn:active{background:var(--pri-d)}
+.btn:disabled{opacity:.55}
+.btn.sec{background:#e2e8f0;color:var(--txt)}
+.btn.sm{width:auto;padding:8px 12px;font-size:13px}
+.btn.icon{width:auto;padding:0 14px;font-size:18px}
+.btn.bad{background:var(--bad)}
+.btn.big{padding:18px 16px;font-size:17px;background:var(--pri-d)}
+#scanModal .box{max-width:520px}
+#scanBox video{object-fit:cover}
+.seg{display:flex;background:#e2e8f0;border-radius:10px;padding:3px;gap:3px}
+.seg button{flex:1;border:0;background:transparent;padding:9px;border-radius:8px;font:inherit;font-weight:600;color:var(--mut)}
+.seg button.on{background:#fff;color:var(--pri-d);box-shadow:0 1px 2px rgba(0,0,0,.1)}
+.hint{font-size:12px;color:var(--mut);margin-top:4px}
+
+/* Login */
+#login{max-width:380px;margin:0 auto;padding:28px 16px}
+#login .logo{text-align:center;margin-bottom:10px}
+#login .logo img{height:72px}
+#login h1{text-align:center;font-size:20px;color:var(--pri-d);margin:6px 0 2px}
+#login p.sub{text-align:center;color:var(--mut);margin:0 0 18px}
+.err{background:#fee2e2;color:var(--bad);padding:10px 12px;border-radius:10px;margin-top:12px;font-size:13.5px}
+
+/* Hasil carian penerima */
+.sugg{border:1px solid var(--line);border-radius:10px;margin-top:6px;overflow:hidden}
+.sugg div{padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14px}
+.sugg div:last-child{border:0}
+.sugg div:active,.sugg div:hover{background:var(--pri-l)}
+.sugg small{display:block;color:var(--mut)}
+
+/* Senarai parcel */
+.pc{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff}
+.pc .t{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
+.pc .trk{font-weight:700;word-break:break-all}
+.pc .meta{font-size:12.5px;color:var(--mut);margin-top:3px}
+.badge{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
+.badge.dt{background:#fef3c7;color:var(--warn)}
+.badge.ds{background:#dcfce7;color:var(--ok)}
+.badge.tg{background:#fee2e2;color:var(--bad)}
+.pc .act{margin-top:8px;display:flex;gap:8px;justify-content:flex-end}
+.empty{text-align:center;color:var(--mut);padding:24px 8px}
+
+/* Dashboard */
+.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
+.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
+.stat b{display:block;font-size:26px;line-height:1.1;color:var(--pri-d)}
+.stat span{font-size:12px;color:var(--mut)}
+.stat.warn b{color:var(--warn)} .stat.bad b{color:var(--bad)}
+.bars{display:flex;align-items:flex-end;gap:6px;height:120px;margin-top:10px}
+.bars .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
+.bars .b{display:flex;gap:2px;align-items:flex-end;width:100%;height:96px}
+.bars .b i{flex:1;border-radius:4px 4px 0 0;min-height:2px}
+.bars .a{background:var(--pri)} .bars .s{background:#94a3b8}
+.bars small{font-size:10.5px;color:var(--mut);margin-top:4px}
+.legend{font-size:12px;color:var(--mut);margin-top:8px}
+.legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin:0 4px 0 10px;vertical-align:middle}
+.lst div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;gap:8px}
+.lst div:last-child{border:0}
+
+/* Nav */
+nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;z-index:30;padding-bottom:env(safe-area-inset-bottom)}
+nav button{flex:1;border:0;background:none;padding:9px 2px 8px;font:inherit;font-size:11.5px;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:2px}
+nav button .i{font-size:20px;line-height:1}
+nav button.on{color:var(--pri-d);font-weight:700}
+footer{text-align:center;color:var(--mut);font-size:11.5px;padding:6px 12px 14px}
+
+/* Toast & modal */
+#toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0f172a;color:#fff;padding:11px 18px;border-radius:99px;font-size:14px;z-index:60;max-width:90%;text-align:center}
+#toast.ok{background:var(--ok)} #toast.bad{background:var(--bad)}
+.modal{position:fixed;inset:0;background:rgba(15,23,42,.75);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .box{background:#fff;border-radius:16px;padding:14px;width:100%;max-width:420px}
+#scanBox{width:100%;min-height:240px;border-radius:10px;overflow:hidden;background:#000}
+</style>
+</head>
+<body>
+
+<!-- ============ LOG MASUK ============ -->
+<section id="login" class="hidden">
+  <div class="logo"><img class="logoimg" alt="Logo MRSM SAS" onerror="this.style.display='none'"></div>
+  <h1>eParcel Koperasi</h1>
+  <p class="sub">MRSM Sultan Azlan Shah</p>
+  <div class="card">
+    <label style="margin-top:0">ID Pengguna</label>
+    <input id="lgId" autocomplete="username" autocapitalize="none">
+    <label>Kata Laluan</label>
+    <input id="lgPw" type="password" autocomplete="current-password">
+    <div id="lgErr" class="err hidden"></div>
+    <button class="btn" id="lgBtn" style="margin-top:16px">Log Masuk</button>
+  </div>
+  <footer>Dibangunkan Oleh Unit KIK dan Unit ICT MRSM SAS 2026</footer>
+</section>
+
+<!-- ============ APLIKASI ============ -->
+<div id="app" class="hidden">
+  <header>
+    <img class="logoimg" alt="Logo MRSM SAS" onerror="this.style.display='none'">
+    <h1>eParcel Koperasi</h1>
+    <div class="userbar"><span id="uNama"></span><span class="chip" id="uPeranan"></span></div>
+  </header>
+
+  <main>
+    <!-- TERIMA -->
+    <section id="v-terima">
+      <div class="card">
+        <h2>📥 Terima Parcel Baharu</h2>
+        <button class="btn big" data-scan="tTrk">📷 Imbas Barcode Parcel</button>
+        <label>No. Tracking</label>
+        <input id="tTrk" placeholder="Terisi automatik selepas imbas, atau taip manual" autocapitalize="characters" autocomplete="off" inputmode="text">
+        <div class="hint">Kamera belakang telefon digunakan. Pastikan barcode jelas dan cukup cahaya.</div>
+
+        <label>Kurier</label>
+        <select id="tKurier"></select>
+
+        <label>Jenis Penerima</label>
+        <div class="seg" id="tJenis">
+          <button class="on" data-v="Pelajar">Pelajar</button>
+          <button data-v="Staf">Staf</button>
+        </div>
+
+        <label>Cari Penerima (nama / No. KP / No. Gaji)</label>
+        <input id="tCari" placeholder="Taip sekurang-kurangnya 2 aksara" autocomplete="off">
+        <div id="tSugg" class="sugg hidden"></div>
+
+        <label>Nama Penerima</label>
+        <input id="tNama" autocomplete="off">
+        <div class="row">
+          <div><label id="lblId">No. KP</label><input id="tId" autocomplete="off"></div>
+          <div><label id="lblKU">Kelas / Asrama</label><input id="tKU" autocomplete="off"></div>
+        </div>
+        <label>No. Telefon (pilihan)</label>
+        <input id="tTel" inputmode="tel" autocomplete="off">
+        <label>Catatan (pilihan)</label>
+        <textarea id="tCat" placeholder="cth: kotak besar, COD RM25"></textarea>
+        <button class="btn" id="tSimpan" style="margin-top:16px">Simpan Parcel</button>
+      </div>
+    </section>
+
+    <!-- SERAH -->
+    <section id="v-serah" class="hidden">
+      <div class="card">
+        <h2>📤 Serahan Parcel</h2>
+        <button class="btn big" data-scan="sCari">📷 Imbas Barcode Parcel</button>
+        <label>Atau cari manual</label>
+        <input id="sCari" placeholder="No. tracking / nama / No. KP" autocomplete="off">
+        <div id="sHasil" style="margin-top:10px"></div>
+      </div>
+      <div class="card hidden" id="sPilih">
+        <h2>Butiran Serahan</h2>
+        <div id="sInfo"></div>
+        <label>Nama Pengambil</label>
+        <input id="sPengambil" autocomplete="off">
+        <div class="hint">Lalai: nama penerima. Tukar jika orang lain mengambil bagi pihak penerima.</div>
+        <label>Catatan (pilihan)</label>
+        <textarea id="sCat"></textarea>
+        <button class="btn" id="sBtn" style="margin-top:16px">Sahkan Serahan</button>
+        <button class="btn sec" id="sBatal" style="margin-top:8px">Batal</button>
+      </div>
+    </section>
+
+    <!-- SENARAI -->
+    <section id="v-senarai" class="hidden">
+      <div class="card">
+        <h2>📋 Senarai Parcel</h2>
+        <div class="seg" id="fStatus">
+          <button class="on" data-v="Diterima">Belum Diambil</button>
+          <button data-v="Diserahkan">Telah Diserah</button>
+          <button data-v="">Semua</button>
+        </div>
+        <input id="fQ" placeholder="Cari tracking / nama / No. KP" style="margin-top:10px" autocomplete="off">
+        <div class="row" style="margin-top:8px">
+          <select id="fKurier"><option value="">Semua kurier</option></select>
+          <input id="fDari" type="date" title="Dari">
+          <input id="fHingga" type="date" title="Hingga">
+        </div>
+        <div class="row" style="margin-top:10px">
+          <button class="btn" id="fCari">Tapis</button>
+          <button class="btn sec" id="fCsv">⬇ CSV</button>
+        </div>
+      </div>
+      <div id="fInfo" class="hint" style="margin:0 4px 8px"></div>
+      <div id="fList"></div>
+    </section>
+
+    <!-- DASHBOARD -->
+    <section id="v-dash" class="hidden">
+      <div class="card">
+        <h2>📊 Ringkasan</h2>
+        <div class="grid" id="dStat"></div>
+      </div>
+      <div class="card">
+        <h2>7 Hari Terakhir</h2>
+        <div class="bars" id="dBars"></div>
+        <div class="legend"><i class="a" style="background:var(--pri)"></i>Diterima<i style="background:#94a3b8"></i>Diserahkan</div>
+      </div>
+      <div class="card">
+        <h2>Belum Diambil Ikut Kurier</h2>
+        <div class="lst" id="dKurier"></div>
+      </div>
+      <div class="card">
+        <h2 id="dTgTitle">Tertunggak</h2>
+        <div class="lst" id="dTg"></div>
+      </div>
+    </section>
+
+    <!-- AKAUN -->
+    <section id="v-akaun" class="hidden">
+      <div class="card">
+        <h2>🔑 Tukar Kata Laluan</h2>
+        <label style="margin-top:0">Kata laluan semasa</label><input id="kLama" type="password" autocomplete="current-password">
+        <label>Kata laluan baharu (min 6 aksara)</label><input id="kBaru" type="password" autocomplete="new-password">
+        <button class="btn" id="kBtn" style="margin-top:14px">Simpan</button>
+      </div>
+      <div class="card hidden" id="adminBox">
+        <h2>👤 Tambah Pengguna (Admin)</h2>
+        <label style="margin-top:0">ID Pengguna</label><input id="pId" autocomplete="off">
+        <label>Nama</label><input id="pNama" autocomplete="off">
+        <label>Kata laluan awal</label><input id="pKl" type="text" autocomplete="off">
+        <label>Peranan</label>
+        <select id="pPeranan"><option>Staf</option><option>Admin</option></select>
+        <button class="btn" id="pBtn" style="margin-top:14px">Tambah</button>
+        <div class="lst" id="pList" style="margin-top:12px"></div>
+      </div>
+      <button class="btn bad" id="logoutBtn">Log Keluar</button>
+    </section>
+
+    <footer>Dibangunkan Oleh Unit KIK dan Unit ICT MRSM SAS 2026</footer>
+  </main>
+
+  <nav>
+    <button data-tab="terima" class="on"><span class="i">📥</span>Terima</button>
+    <button data-tab="serah"><span class="i">📤</span>Serah</button>
+    <button data-tab="senarai"><span class="i">📋</span>Senarai</button>
+    <button data-tab="dash"><span class="i">📊</span>Dashboard</button>
+    <button data-tab="akaun"><span class="i">👤</span>Akaun</button>
+  </nav>
+</div>
+
+<!-- Pengimbas kamera -->
+<div id="scanModal" class="modal hidden">
+  <div class="box">
+    <div id="scanBox"></div>
+    <div class="hint" style="margin:8px 0">Halakan kamera pada barcode / QR parcel.</div>
+    <button class="btn sec" id="scanClose">Tutup</button>
+  </div>
+</div>
+<div id="toast" class="hidden"></div>
+
+<script>
+/* ============ KONFIGURASI ============ */
+const API_URL  = 'https://script.google.com/macros/s/AKfycbzW_hulRGFZ7acUkOxrtWqr7XkZXKIeTvo5cINB0R1KObH6pA1jcclUlYjKqpYId0-3/exec';   // URL deployment Apps Script
+const LOGO_URL = 'logo.png';                          // letak logo MRSM SAS di sebelah index.html
+const KURIER   = ['J&T Express','Pos Laju','Shopee Express (SPX)','Flash Express','Ninja Van','GDEX','DHL','City-Link','Lazada Express','Lain-lain'];
+
+/* ============ ASAS ============ */
+const $ = id => document.getElementById(id);
+const S = { token: sessionStorage.getItem('ep_token') || '', user: JSON.parse(sessionStorage.getItem('ep_user') || 'null'),
+            jenis: 'Pelajar', status: 'Diterima', senarai: [], dipilih: null };
+
+const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+function toast(msg, jenis) {
+  const t = $('toast'); t.textContent = msg; t.className = jenis || ''; t.classList.remove('hidden');
+  clearTimeout(toast._t); toast._t = setTimeout(() => t.classList.add('hidden'), 3200);
+}
+
+async function api(action, data) {
+  let res;
+  try {
+    res = await fetch(API_URL, {
+      method: 'POST',
+      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action: action, token: S.token }, data || {}))
+    });
+  } catch (e) { throw new Error('Tiada sambungan internet / pelayan'); }
+  const j = await res.json();
+  if (!j.ok) {
+    if (j.error === 'SESI_TAMAT') { keluar(true); throw new Error('Sesi tamat, sila log masuk semula'); }
+    throw new Error(j.error);
+  }
+  return j.data;
+}
+
+async function jalan(btn, fn) {
+  const asal = btn.textContent; btn.disabled = true; btn.textContent = 'Sila tunggu…';
+  try { return await fn(); }
+  catch (e) { toast(e.message, 'bad'); }
+  finally { btn.disabled = false; btn.textContent = asal; }
+}
+
+document.querySelectorAll('.logoimg').forEach(i => i.src = LOGO_URL);
+
+/* ============ LOG MASUK ============ */
+function papar() {
+  const masuk = !!(S.token && S.user);
+  $('login').classList.toggle('hidden', masuk);
+  $('app').classList.toggle('hidden', !masuk);
+  if (masuk) {
+    $('uNama').textContent = S.user.nama; $('uPeranan').textContent = S.user.peranan;
+    $('adminBox').classList.toggle('hidden', S.user.peranan !== 'Admin');
+    tab('terima');
+  }
+}
+
+async function login() {
+  $('lgErr').classList.add('hidden');
+  try {
+    const r = await api('login', { id: $('lgId').value, katalaluan: $('lgPw').value });
+    S.token = r.token; S.user = r.user;
+    sessionStorage.setItem('ep_token', r.token); sessionStorage.setItem('ep_user', JSON.stringify(r.user));
+    $('lgPw').value = ''; papar();
+  } catch (e) { $('lgErr').textContent = e.message; $('lgErr').classList.remove('hidden'); }
+}
+$('lgBtn').onclick = () => jalan($('lgBtn'), login);
+$('lgPw').onkeydown = e => { if (e.key === 'Enter') $('lgBtn').click(); };
+
+function keluar(senyap) {
+  if (!senyap && S.token) api('logout').catch(() => {});
+  S.token = ''; S.user = null; sessionStorage.removeItem('ep_token'); sessionStorage.removeItem('ep_user'); papar();
+}
+$('logoutBtn').onclick = () => keluar(false);
+
+/* ============ NAVIGASI ============ */
+function tab(nama) {
+  ['terima','serah','senarai','dash','akaun'].forEach(t => $('v-' + t).classList.toggle('hidden', t !== nama));
+  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === nama));
+  window.scrollTo(0, 0);
+  if (nama === 'senarai') muatSenarai();
+  if (nama === 'dash') muatDash();
+  if (nama === 'akaun' && S.user && S.user.peranan === 'Admin') muatPengguna();
+  if (nama === 'terima') setTimeout(() => $('tTrk').focus(), 50);
+  if (nama === 'serah') setTimeout(() => $('sCari').focus(), 50);
+}
+document.querySelectorAll('nav button').forEach(b => b.onclick = () => tab(b.dataset.tab));
+
+function segmen(id, cb) {
+  $(id).querySelectorAll('button').forEach(b => b.onclick = () => {
+    $(id).querySelectorAll('button').forEach(x => x.classList.remove('on')); b.classList.add('on'); cb(b.dataset.v);
+  });
+}
+
+/* ============ TERIMA ============ */
+$('tKurier').innerHTML = KURIER.map(k => `<option>${esc(k)}</option>`).join('');
+$('fKurier').innerHTML += KURIER.map(k => `<option>${esc(k)}</option>`).join('');
+
+segmen('tJenis', v => {
+  S.jenis = v;
+  $('lblId').textContent = v === 'Staf' ? 'No. Gaji' : 'No. KP';
+  $('lblKU').textContent = v === 'Staf' ? 'Unit' : 'Kelas / Asrama';
+  $('tCari').value = ''; $('tSugg').classList.add('hidden');
+  kosongPenerima();
+});
+
+function kosongPenerima() { ['tNama','tId','tKU','tTel'].forEach(i => $(i).value = ''); }
+
+const cariPenerima = debounce(async () => {
+  const q = $('tCari').value.trim(); const box = $('tSugg');
+  if (q.length < 2) { box.classList.add('hidden'); return; }
+  try {
+    const r = await api('cariPenerima', { jenis: S.jenis, q: q });
+    box.innerHTML = r.length ? r.map((x, i) => `<div data-i="${i}">${esc(x.nama)}<small>${esc(x.id)} · ${esc(x.kelasUnit)}</small></div>`).join('')
+                              : '<div style="color:var(--mut)">Tiada dalam senarai — isi butiran secara manual di bawah.</div>';
+    box.classList.remove('hidden');
+    box.querySelectorAll('div[data-i]').forEach(d => d.onclick = () => {
+      const x = r[+d.dataset.i];
+      $('tNama').value = x.nama; $('tId').value = x.id; $('tKU').value = x.kelasUnit; $('tTel').value = x.noTel;
+      box.classList.add('hidden'); $('tCari').value = '';
+    });
+  } catch (e) { toast(e.message, 'bad'); }
+}, 300);
+$('tCari').oninput = cariPenerima;
+
+$('tTrk').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); $('tCari').focus(); } };
+
+$('tSimpan').onclick = () => jalan($('tSimpan'), async () => {
+  await api('tambahParcel', { parcel: {
+    noTracking: $('tTrk').value, kurier: $('tKurier').value, jenis: S.jenis, idPenerima: $('tId').value,
+    nama: $('tNama').value, kelasUnit: $('tKU').value, noTel: $('tTel').value, catatan: $('tCat').value
+  }});
+  toast('Parcel berjaya direkod ✔', 'ok');
+  ['tTrk','tCari','tCat'].forEach(i => $(i).value = ''); kosongPenerima();   // kurier & jenis kekal untuk kemasukan berturut-turut
+  $('tSugg').classList.add('hidden'); $('tTrk').focus();
+});
+
+/* ============ SERAH ============ */
+const cariSerah = debounce(async () => {
+  const q = $('sCari').value.trim(); const box = $('sHasil');
+  if (q.length < 3) { box.innerHTML = ''; return; }
+  try {
+    const r = await api('senarai', { filter: { status: 'Diterima', q: q } });
+    S.senarai = r.rows;
+    box.innerHTML = r.rows.length ? r.rows.slice(0, 20).map((p, i) => kad(p, `<button class="btn sm" data-p="${i}">Pilih</button>`)).join('')
+                                  : '<div class="empty">Tiada parcel belum diambil yang sepadan.</div>';
+    box.querySelectorAll('[data-p]').forEach(b => b.onclick = () => pilihSerah(r.rows[+b.dataset.p]));
+    if (r.rows.length === 1 && /\d{6,}/.test(q)) pilihSerah(r.rows[0]);   // imbasan tepat → terus pilih
+  } catch (e) { toast(e.message, 'bad'); }
+}, 350);
+$('sCari').oninput = cariSerah;
+$('sCari').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); cariSerah(); } };
+
+function pilihSerah(p) {
+  S.dipilih = p;
+  $('sInfo').innerHTML = kad(p, '');
+  $('sPengambil').value = p.NamaPenerima; $('sCat').value = '';
+  $('sPilih').classList.remove('hidden'); $('sPilih').scrollIntoView({ behavior: 'smooth' });
+}
+$('sBatal').onclick = () => { S.dipilih = null; $('sPilih').classList.add('hidden'); };
+$('sBtn').onclick = () => jalan($('sBtn'), async () => {
+  await api('serah', { id: S.dipilih.ID, namaPengambil: $('sPengambil').value, catatan: $('sCat').value });
+  toast('Parcel telah diserahkan ✔', 'ok');
+  S.dipilih = null; $('sPilih').classList.add('hidden'); $('sHasil').innerHTML = ''; $('sCari').value = ''; $('sCari').focus();
+});
+
+/* ============ SENARAI ============ */
+function kad(p, aksi) {
+  const dt = p.Status === 'Diterima';
+  const tg = dt && p.umurHari >= 7;
+  const badge = dt ? `<span class="badge ${tg ? 'tg' : 'dt'}">${tg ? 'Tertunggak ' : 'Menunggu '}${p.umurHari}h</span>` : '<span class="badge ds">Diserahkan</span>';
+  return `<div class="pc"><div class="t"><div><div class="trk">${esc(p.NoTracking)}</div>
+    <div class="meta">${esc(p.Kurier)} · diterima ${esc(String(p.TarikhTerima).slice(0, 16))}</div></div>${badge}</div>
+    <div style="margin-top:6px"><b>${esc(p.NamaPenerima)}</b> <span class="meta">${esc(p.NoPengenalan)} · ${esc(p.Kelas_Unit)}</span></div>
+    ${p.CatatanTerima ? `<div class="meta">📝 ${esc(p.CatatanTerima)}</div>` : ''}
+    ${!dt ? `<div class="meta">Diambil oleh ${esc(p.NamaPengambil)} · ${esc(String(p.TarikhSerah).slice(0, 16))}</div>` : ''}
+    ${aksi ? `<div class="act">${aksi}</div>` : ''}</div>`;
+}
+
+async function muatSenarai() {
+  $('fList').innerHTML = '<div class="empty">Memuatkan…</div>';
+  try {
+    const r = await api('senarai', { filter: { status: S.status, q: $('fQ').value, kurier: $('fKurier').value, dari: $('fDari').value, hingga: $('fHingga').value } });
+    S.senarai = r.rows;
+    $('fInfo').textContent = r.jumlah + ' rekod' + (r.jumlah > r.rows.length ? ` (dipaparkan ${r.rows.length} terkini)` : '');
+    $('fList').innerHTML = r.rows.length
+      ? r.rows.map((p, i) => kad(p, p.Status === 'Diterima' ? `<button class="btn sm" data-s="${i}">Serah</button>` : '')).join('')
+      : '<div class="empty">Tiada rekod.</div>';
+    $('fList').querySelectorAll('[data-s]').forEach(b => b.onclick = () => { tab('serah'); pilihSerah(r.rows[+b.dataset.s]); });
+  } catch (e) { $('fList').innerHTML = ''; toast(e.message, 'bad'); }
+}
+segmen('fStatus', v => { S.status = v; muatSenarai(); });
+$('fCari').onclick = muatSenarai;
+$('fQ').onkeydown = e => { if (e.key === 'Enter') muatSenarai(); };
+
+$('fCsv').onclick = () => {
+  if (!S.senarai.length) return toast('Tiada data untuk dieksport', 'bad');
+  const lajur = ['ID','NoTracking','Kurier','JenisPenerima','NoPengenalan','NamaPenerima','Kelas_Unit','NoTel','CatatanTerima','TarikhTerima','DiterimaOleh','Status','TarikhSerah','DiserahOleh','NamaPengambil','CatatanSerah'];
+  const sel = v => '"' + String(v == null ? '' : v).replace(/"/g, '""') + '"';
+  const csv = '﻿' + [lajur.join(',')].concat(S.senarai.map(r => lajur.map(k => sel(r[k])).join(','))).join('\r\n');
+  const a = document.createElement('a');
+  a.href = URL.createObjectURL(new Blob([csv], { type: 'text/csv;charset=utf-8' }));
+  a.download = 'parcel_' + new Date().toISOString().slice(0, 10) + '.csv'; a.click();
+};
+
+/* ============ DASHBOARD ============ */
+async function muatDash() {
+  try {
+    const d = await api('dashboard');
+    $('dStat').innerHTML = [
+      ['Diterima hari ini', d.terimaHariIni, ''], ['Diserah hari ini', d.serahHariIni, ''],
+      ['Belum diambil', d.menunggu, 'warn'], ['Tertunggak (≥' + d.hadTertunggak + ' hari)', d.tertunggak, d.tertunggak ? 'bad' : ''],
+      ['Diterima bulan ini', d.terimaBulanIni, ''], ['Diserah bulan ini', d.serahBulanIni, '']
+    ].map(x => `<div class="stat ${x[2]}"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+
+    const maks = Math.max(1, ...d.trend.map(t => Math.max(t.terima, t.serah)));
+    $('dBars').innerHTML = d.trend.map(t => `<div class="c"><div class="b">
+      <i class="a" style="height:${t.terima / maks * 100}%;background:var(--pri)" title="Diterima ${t.terima}"></i>
+      <i class="s" style="height:${t.serah / maks * 100}%;background:#94a3b8" title="Diserah ${t.serah}"></i></div>
+      <small>${t.tarikh.slice(8)}/${t.tarikh.slice(5, 7)}</small></div>`).join('');
+
+    const k = Object.keys(d.ikutKurier).sort((a, b) => d.ikutKurier[b] - d.ikutKurier[a]);
+    $('dKurier').innerHTML = k.length ? k.map(n => `<div><span>${esc(n)}</span><b>${d.ikutKurier[n]}</b></div>`).join('') : '<div class="empty">Tiada parcel menunggu 🎉</div>';
+
+    $('dTgTitle').textContent = '⚠ Tertunggak (≥' + d.hadTertunggak + ' hari)';
+    $('dTg').innerHTML = d.tertunggakSenarai.length
+      ? d.tertunggakSenarai.map(p => `<div><span>${esc(p.nama)}<br><small style="color:var(--mut)">${esc(p.noTracking)} · ${esc(p.kelasUnit)}</small></span><b style="color:var(--bad)">${p.umurHari}h</b></div>`).join('')
+      : '<div class="empty">Tiada parcel tertunggak</div>';
+  } catch (e) { toast(e.message, 'bad'); }
+}
+
+/* ============ AKAUN ============ */
+$('kBtn').onclick = () => jalan($('kBtn'), async () => {
+  await api('tukarKataLaluan', { lama: $('kLama').value, baru: $('kBaru').value });
+  $('kLama').value = ''; $('kBaru').value = ''; toast('Kata laluan dikemas kini ✔', 'ok');
+});
+async function muatPengguna() {
+  try {
+    const r = await api('senaraiPengguna');
+    $('pList').innerHTML = r.map(u => `<div><span>${esc(u.nama)}<br><small style="color:var(--mut)">${esc(u.id)}</small></span><span class="chip">${esc(u.peranan)}</span></div>`).join('');
+  } catch (e) { toast(e.message, 'bad'); }
+}
+$('pBtn').onclick = () => jalan($('pBtn'), async () => {
+  await api('tambahPengguna', { id: $('pId').value, nama: $('pNama').value, katalaluan: $('pKl').value, peranan: $('pPeranan').value });
+  ['pId','pNama','pKl'].forEach(i => $(i).value = ''); toast('Pengguna ditambah ✔', 'ok'); muatPengguna();
+});
+
+/* ============ PENGIMBAS KAMERA ============ */
+let pengimbas = null, sasaran = null;
+document.querySelectorAll('[data-scan]').forEach(b => b.onclick = async () => {
+  sasaran = b.dataset.scan; $('scanModal').classList.remove('hidden');
+  try {
+    const F = Html5QrcodeSupportedFormats;
+    pengimbas = new Html5Qrcode('scanBox', {
+      formatsToSupport: [F.CODE_128, F.CODE_39, F.EAN_13, F.EAN_8, F.ITF, F.CODABAR, F.UPC_A, F.QR_CODE, F.DATA_MATRIX],
+      experimentalFeatures: { useBarCodeDetector: true },   // guna pengesan asli Android/Chrome jika ada (lebih pantas)
+      verbose: false
+    });
+    await pengimbas.start({ facingMode: 'environment' }, {
+      fps: 15,
+      qrbox: (w, h) => ({ width: Math.floor(w * 0.9), height: Math.floor(Math.min(h, w) * 0.4) }),
+      videoConstraints: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 }, focusMode: 'continuous' }
+    }, teks => {
+      const el = $(sasaran); el.value = teks.replace(/\s+/g, ''); tutupScan();
+      el.dispatchEvent(new Event('input')); if (navigator.vibrate) navigator.vibrate(80);
+      if (sasaran === 'tTrk') $('tCari').focus();
+    }, () => {});
+  } catch (e) { tutupScan(); toast('Kamera tidak dapat dibuka. Semak kebenaran kamera (perlu HTTPS).', 'bad'); }
+});
+async function tutupScan() {
+  try { if (pengimbas) { await pengimbas.stop(); pengimbas.clear(); } } catch (e) {}
+  pengimbas = null; $('scanModal').classList.add('hidden');
+}
+$('scanClose').onclick = tutupScan;
+
+/* ============ MULA ============ */
+papar();
+</script>
+</body>
+</html>
