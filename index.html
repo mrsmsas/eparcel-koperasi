@@ -157,7 +157,31 @@ footer{text-align:center;color:var(--mu);font-size:11.5px;padding:8px 12px 4px}
       <div id="lgErr" class="err hidden"></div>
       <button class="btn" id="lgBtn" style="margin-top:18px">Log Masuk</button>
     </div>
-    <footer>Dibangunkan Oleh Unit KIK dan Unit ICT MRSM SAS 2026</footer>
+    <div class="card" style="text-align:center">
+      <h2 style="margin-bottom:4px">Pelajar &amp; Staf</h2>
+      <p style="margin:0 0 12px;font-size:13px;color:var(--mu)">Semak sendiri status parcel anda tanpa log masuk.</p>
+      <button class="btn nv" id="goSemak">Semak Parcel Saya</button>
+    </div>
+    <footer>Dibangunkan Oleh Unit ICT Koperasi MRSM Sultan Azlan Shah</footer>
+  </div>
+</section>
+
+<!-- ============ SEMAKAN AWAM ============ -->
+<section id="semak" class="hidden">
+  <header>
+    <span class="chip"><img src="logo-koperasi.png" alt="Logo Koperasi MRSM SAS" onerror="this.remove()"></span>
+    <div class="ht"><h1>Semak Parcel</h1><p>Koperasi MRSM Sultan Azlan Shah</p></div>
+  </header>
+  <div class="box">
+    <div class="card">
+      <label style="margin-top:0" for="smQ">No. tracking, 4 digit akhir no. telefon, atau nama penerima</label>
+      <input id="smQ" autocomplete="off" placeholder="cth: SPX123456789 / 1234 / Ahmad">
+      <div id="smErr" class="err hidden"></div>
+      <button class="btn" id="smBtn" style="margin-top:18px">Semak</button>
+    </div>
+    <div id="smHasil"></div>
+    <button class="btn sec" id="smBalik">Kembali ke Log Masuk</button>
+    <footer>Dibangunkan Oleh Unit ICT Koperasi MRSM Sultan Azlan Shah</footer>
   </div>
 </section>
 
@@ -321,7 +345,7 @@ footer{text-align:center;color:var(--mu);font-size:11.5px;padding:8px 12px 4px}
       <button class="btn bad" id="logoutBtn">Log Keluar</button>
     </section>
 
-    <footer>Dibangunkan Oleh Unit KIK dan Unit ICT MRSM SAS 2026</footer>
+    <footer>Dibangunkan Oleh Unit ICT Koperasi MRSM Sultan Azlan Shah</footer>
   </main>
 </div>
 
@@ -389,7 +413,9 @@ async function jalan(btn, fn) {
 /* ============ LOG MASUK ============ */
 function papar() {
   const masuk = !!(S.token && S.user);
-  $('login').classList.toggle('hidden', masuk);
+  const semak = !masuk && !!S.semak;
+  $('semak').classList.toggle('hidden', !semak);
+  $('login').classList.toggle('hidden', masuk || semak);
   $('app').classList.toggle('hidden', !masuk);
   if (masuk) {
     $('uBtn').textContent = S.user.nama;
@@ -409,6 +435,27 @@ async function login() {
 }
 $('lgBtn').onclick = () => jalan($('lgBtn'), login);
 $('lgPw').onkeydown = e => { if (e.key === 'Enter') $('lgBtn').click(); };
+
+/* ============ SEMAKAN AWAM ============ */
+const escH = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
+async function semakParcel() {
+  $('smErr').classList.add('hidden'); $('smHasil').innerHTML = '';
+  try {
+    const r = await api('semakAwam', { q: $('smQ').value });
+    if (!r.jumlah) { $('smHasil').innerHTML = '<div class="card" style="text-align:center">Tiada parcel dijumpai. Semak ejaan atau hubungi kaunter koperasi.</div>'; return; }
+    $('smHasil').innerHTML = (r.jumlah > r.rows.length ? `<p style="font-size:13px;color:var(--mu)">${r.jumlah} padanan, dipaparkan ${r.rows.length} terkini. Gunakan no. tracking penuh untuk hasil tepat.</p>` : '') +
+      r.rows.map(p => {
+        const siap = p.status === 'Diserahkan';
+        const info = siap ? `Diserahkan pada ${escH(p.tarikhSerah)}` : `Sedia diambil di koperasi (diterima ${escH(p.tarikhTerima)}${p.umurHari != null ? ', ' + p.umurHari + ' hari' : ''})`;
+        return `<div class="card"><div style="display:flex;justify-content:space-between;gap:10px;align-items:center"><b>${escH(p.noTracking)}</b><span style="background:${siap ? '#E3F6EA' : '#FFF3C4'};color:${siap ? '#14683A' : '#7A5A00'};border-radius:999px;padding:4px 12px;font-size:12.5px;font-weight:700">${siap ? 'Telah Diserahkan' : 'Sedia Diambil'}</span></div><div style="margin-top:8px;font-size:14px">${escH(p.nama)}${p.kurier ? ' &middot; ' + escH(p.kurier) : ''}</div><div style="margin-top:4px;font-size:13px;color:var(--mu)">${info}</div></div>`;
+      }).join('');
+  } catch (e) { $('smErr').textContent = e.message; $('smErr').classList.remove('hidden'); }
+}
+$('smBtn').onclick = () => jalan($('smBtn'), semakParcel);
+$('smQ').onkeydown = e => { if (e.key === 'Enter') $('smBtn').click(); };
+$('goSemak').onclick = () => { S.semak = true; papar(); };
+$('smBalik').onclick = () => { S.semak = false; $('smHasil').innerHTML = ''; papar(); };
+if (/[?&#]semak\b/.test(location.search + location.hash)) S.semak = true;
 
 function keluar(senyap) {
   if (!senyap && S.token) api('logout').catch(() => {});
