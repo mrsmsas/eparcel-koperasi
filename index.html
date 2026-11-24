@@ -3,214 +3,267 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<meta name="theme-color" content="#0f766e">
+<meta name="theme-color" content="#1A1464">
 <title>eParcel Koperasi MRSM SAS</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Poppins:wght@400;500;600;700&display=swap" rel="stylesheet">
 <script src="https://unpkg.com/html5-qrcode@2.3.8/html5-qrcode.min.js"></script>
 <style>
 :root{
-  --pri:#0f766e; --pri-d:#115e59; --pri-l:#ccfbf1; --bg:#f1f5f9; --card:#fff; --txt:#0f172a; --mut:#64748b;
-  --line:#e2e8f0; --ok:#15803d; --warn:#b45309; --bad:#b91c1c; --r:14px;
+  --nv:#1A1464; --nv2:#2A2392; --yl:#F5C10F; --rc:#C80000; --bg:#F3F2FB; --ink:#14123A; --mu:#5A5880; --ln:#CFCBF0;
+  --ok:#15803D; --sh:0 8px 22px rgba(26,20,100,.09);
 }
 *{box-sizing:border-box;-webkit-tap-highlight-color:transparent}
-html,body{margin:0;background:var(--bg);color:var(--txt);font-family:system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px}
-body{padding-bottom:calc(76px + env(safe-area-inset-bottom))}
+html,body{margin:0;background:var(--bg);color:var(--ink);font-family:'Poppins',system-ui,-apple-system,"Segoe UI",Roboto,sans-serif;font-size:15px}
+body{padding-bottom:calc(24px + env(safe-area-inset-bottom))}
 .hidden{display:none!important}
+button{font-family:inherit}
 
 /* Header */
-header{background:var(--card);border-bottom:1px solid var(--line);padding:12px 16px 10px;text-align:center;position:sticky;top:0;z-index:20}
-.logos{display:flex;justify-content:center;align-items:center;gap:14px;margin:0 auto 6px}
-.logos img{height:44px;width:auto;max-width:42%;object-fit:contain}
-#login .logos img{height:72px}
-header h1{margin:0;font-size:16px;font-weight:700;color:var(--pri-d)}
-header small{color:var(--mut);font-size:12px}
-.userbar{display:flex;justify-content:center;gap:8px;align-items:center;margin-top:4px;font-size:12px;color:var(--mut)}
-.chip{background:var(--pri-l);color:var(--pri-d);padding:2px 10px;border-radius:99px;font-weight:600}
+header{background:var(--nv);color:#fff;padding:calc(16px + env(safe-area-inset-top)) 18px 20px;border-radius:0 0 30px 30px}
+header.tall{padding-bottom:56px}
+.hrow{display:flex;align-items:center;justify-content:space-between;gap:10px;max-width:560px;margin:0 auto}
+.hl{display:flex;align-items:center;gap:10px}
+.chip{background:#fff;border-radius:12px;padding:4px 10px;display:flex;align-items:center}
+.chip img{height:32px;width:auto;display:block}
+.bk{width:40px;height:40px;border-radius:12px;border:0;background:rgba(255,255,255,.14);color:#fff;display:flex;align-items:center;justify-content:center;cursor:pointer}
+.uchip{border:0;background:rgba(255,255,255,.14);color:var(--yl);font-weight:600;font-size:12.5px;padding:8px 12px;border-radius:99px;cursor:pointer;max-width:48vw;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+.ht{max-width:560px;margin:14px auto 0}
+.ht h1{margin:0;font-size:22px;font-weight:700;letter-spacing:-.01em}
+.ht p{margin:2px 0 0;font-size:13px;color:#D9D6FF}
+header.tall .ht h1{font-size:26px}
 
-main{max-width:720px;margin:0 auto;padding:14px}
-.card{background:var(--card);border:1px solid var(--line);border-radius:var(--r);padding:16px;margin-bottom:14px;box-shadow:0 1px 2px rgba(15,23,42,.04)}
-.card h2{margin:0 0 12px;font-size:16px}
-label{display:block;font-size:12.5px;font-weight:600;color:var(--mut);margin:12px 0 4px}
-input,select,textarea{width:100%;padding:11px 12px;border:1px solid #cbd5e1;border-radius:10px;font:inherit;background:#fff;color:var(--txt)}
-input:focus,select:focus,textarea:focus{outline:2px solid var(--pri);outline-offset:0;border-color:var(--pri)}
-textarea{resize:vertical;min-height:60px}
-.row{display:flex;gap:8px}
-.row>*{flex:1}
-.row .fix{flex:0 0 auto}
-.btn{border:0;border-radius:10px;padding:12px 16px;font:inherit;font-weight:700;cursor:pointer;background:var(--pri);color:#fff;width:100%}
-.btn:active{background:var(--pri-d)}
+main{max-width:560px;margin:0 auto;padding:16px}
+.card{background:#fff;border-radius:22px;padding:16px;margin-bottom:14px;box-shadow:var(--sh)}
+.card h2{margin:0 0 12px;font-size:16px;font-weight:700}
+label{display:block;font-size:12px;font-weight:600;color:var(--mu);margin:12px 0 5px}
+input,select,textarea{width:100%;height:52px;padding:0 16px;border:2px solid var(--ln);border-radius:16px;font:inherit;font-size:16px;background:#fff;color:var(--ink)}
+textarea{height:auto;min-height:64px;padding:12px 16px;resize:vertical}
+input:focus,select:focus,textarea:focus{outline:0;border-color:var(--nv)}
+.row{display:flex;gap:8px}.row>*{flex:1}
+.hint{font-size:12px;color:var(--mu);margin-top:5px}
+
+.btn{border:0;border-radius:18px;height:56px;padding:0 18px;font-weight:700;font-size:16px;cursor:pointer;background:var(--yl);color:var(--nv);width:100%;display:flex;align-items:center;justify-content:center;gap:10px;box-shadow:0 10px 22px rgba(245,193,18,.4)}
+.btn:active{filter:brightness(.94)}
 .btn:disabled{opacity:.55}
-.btn.sec{background:#e2e8f0;color:var(--txt)}
-.btn.sm{width:auto;padding:8px 12px;font-size:13px}
-.btn.icon{width:auto;padding:0 14px;font-size:18px}
-.btn.bad{background:var(--bad)}
-.btn.big{padding:18px 16px;font-size:17px;background:var(--pri-d)}
-#scanModal .box{max-width:520px}
-#scanBox video{object-fit:cover}
-.seg{display:flex;background:#e2e8f0;border-radius:10px;padding:3px;gap:3px}
-.seg button{flex:1;border:0;background:transparent;padding:9px;border-radius:8px;font:inherit;font-weight:600;color:var(--mut)}
-.seg button.on{background:#fff;color:var(--pri-d);box-shadow:0 1px 2px rgba(0,0,0,.1)}
-.hint{font-size:12px;color:var(--mut);margin-top:4px}
+.btn.nv{background:var(--nv);color:#fff;box-shadow:none}
+.btn.sec{background:#fff;color:var(--nv);border:2px solid var(--ln);box-shadow:none}
+.btn.sm{width:auto;height:40px;font-size:13.5px;padding:0 16px;border-radius:12px;box-shadow:none}
+.btn.bad{background:var(--rc);color:#fff;box-shadow:none}
+.seg{display:flex;gap:10px}
+.seg button{flex:1;height:50px;border-radius:16px;border:2px solid var(--ln);background:#fff;font-weight:600;font-size:15px;color:var(--mu);cursor:pointer}
+.seg button.on{background:var(--nv);border-color:var(--nv);color:#fff;font-weight:700}
 
-/* Login */
-#login{max-width:380px;margin:0 auto;padding:28px 16px}
-#login .logos{margin-bottom:10px}
-#login h1{text-align:center;font-size:20px;color:var(--pri-d);margin:6px 0 2px}
-#login p.sub{text-align:center;color:var(--mut);margin:0 0 18px}
-.err{background:#fee2e2;color:var(--bad);padding:10px 12px;border-radius:10px;margin-top:12px;font-size:13.5px}
+/* Log masuk */
+#login header{padding-bottom:70px;text-align:center}
+#login .chip{display:inline-flex;padding:8px 16px;border-radius:16px}
+#login .chip img{height:78px}
+#login .ht{text-align:center}
+#login .box{max-width:400px;margin:-48px auto 0;padding:0 16px}
+.err{background:#FDE8E8;color:var(--rc);padding:10px 12px;border-radius:12px;margin-top:12px;font-size:13.5px}
 
-/* Hasil carian penerima */
-.sugg{border:1px solid var(--line);border-radius:10px;margin-top:6px;overflow:hidden}
-.sugg div{padding:10px 12px;border-bottom:1px solid var(--line);cursor:pointer;font-size:14px}
-.sugg div:last-child{border:0}
-.sugg div:active,.sugg div:hover{background:var(--pri-l)}
-.sugg small{display:block;color:var(--mut)}
+/* Menu utama */
+.cta{margin:-62px 0 0;position:relative;background:var(--yl);border:0;border-radius:24px;min-height:80px;width:100%;display:flex;align-items:center;gap:14px;padding:0 20px;text-align:left;cursor:pointer;box-shadow:0 12px 26px rgba(245,193,18,.45)}
+.cta .ci{width:50px;height:50px;border-radius:25px;background:var(--nv);color:var(--yl);display:flex;align-items:center;justify-content:center;flex:none}
+.cta b{display:block;font-size:18px;color:var(--nv);font-weight:700}
+.cta small{display:block;font-size:12.5px;color:#4A3A00;font-weight:500}
+.tiles{display:grid;grid-template-columns:1fr 1fr;gap:14px;margin-top:16px}
+.tile{position:relative;background:#fff;border:0;border-radius:24px;padding:16px;text-align:left;display:flex;flex-direction:column;gap:12px;box-shadow:var(--sh);cursor:pointer;color:var(--ink)}
+.tile:active{transform:scale(.98)}
+.tile .ti{width:50px;height:50px;border-radius:16px;background:var(--nv);color:var(--yl);display:flex;align-items:center;justify-content:center}
+.tile b{display:block;font-size:16px;font-weight:700}
+.tile small{display:block;font-size:12px;color:var(--mu);font-weight:400}
+.tile .bd{position:absolute;top:12px;right:12px;font-size:12px;font-weight:700;padding:3px 9px;border-radius:99px;background:#FFF4C2;color:#6B4E00}
+.tile .bd.hot{background:#FDE8E8;color:var(--rc)}
+.alert{margin-top:16px;background:#FDE8E8;border:0;border-radius:18px;padding:12px 14px;display:flex;align-items:center;gap:12px;width:100%;text-align:left;cursor:pointer;color:var(--rc)}
+.alert b{display:block;font-size:14px}
+.alert small{display:block;font-size:12px;color:#7A1F1F}
+
+/* Stepper */
+.stepper{display:flex;background:#fff;border-radius:20px;padding:14px 10px;margin:-34px 0 14px;position:relative;box-shadow:var(--sh)}
+.stepper div{flex:1;display:flex;flex-direction:column;align-items:center;gap:6px;font-size:12px;color:var(--mu)}
+.stepper i{width:34px;height:34px;border-radius:17px;border:2px solid var(--ln);display:flex;align-items:center;justify-content:center;font-style:normal;font-weight:700;font-size:14px;color:var(--mu);background:#fff}
+.stepper .act i{background:var(--nv);border-color:var(--nv);color:#fff}
+.stepper .act{color:var(--ink);font-weight:600}
+.stepper .done i{background:var(--yl);border-color:var(--nv);color:var(--nv)}
+.stepper .done{color:var(--ink);font-weight:600}
+
+/* Cadangan penerima */
+.sugg{margin-top:8px;display:flex;flex-direction:column;gap:8px}
+.sugg div{background:#fff;border:2px solid var(--ln);border-radius:16px;padding:11px 14px;cursor:pointer;font-size:14px;font-weight:600}
+.sugg div:active{border-color:var(--nv)}
+.sugg small{display:block;color:var(--mu);font-weight:400;font-size:12px}
 
 /* Senarai parcel */
-.pc{border:1px solid var(--line);border-radius:12px;padding:12px;margin-bottom:10px;background:#fff}
+.pc{border:2px solid #EAE8F8;border-radius:18px;padding:13px;margin-bottom:10px;background:#fff}
 .pc .t{display:flex;justify-content:space-between;gap:8px;align-items:flex-start}
 .pc .trk{font-weight:700;word-break:break-all}
-.pc .meta{font-size:12.5px;color:var(--mut);margin-top:3px}
-.badge{font-size:11.5px;font-weight:700;padding:3px 9px;border-radius:99px;white-space:nowrap}
-.badge.dt{background:#fef3c7;color:var(--warn)}
-.badge.ds{background:#dcfce7;color:var(--ok)}
-.badge.tg{background:#fee2e2;color:var(--bad)}
-.pc .act{margin-top:8px;display:flex;gap:8px;justify-content:flex-end}
-.empty{text-align:center;color:var(--mut);padding:24px 8px}
+.pc .meta{font-size:12.5px;color:var(--mu);margin-top:3px}
+.badge{font-size:11.5px;font-weight:700;padding:3px 10px;border-radius:99px;white-space:nowrap}
+.badge.dt{background:#FFF4C2;color:#6B4E00}
+.badge.ds{background:#DCFCE7;color:var(--ok)}
+.badge.tg{background:#FDE8E8;color:var(--rc)}
+.pc .act{margin-top:10px;display:flex;justify-content:flex-end}
+.empty{text-align:center;color:var(--mu);padding:24px 8px}
 
-/* Dashboard */
-.grid{display:grid;grid-template-columns:1fr 1fr;gap:10px}
-.stat{background:#fff;border:1px solid var(--line);border-radius:12px;padding:12px}
-.stat b{display:block;font-size:26px;line-height:1.1;color:var(--pri-d)}
-.stat span{font-size:12px;color:var(--mut)}
-.stat.warn b{color:var(--warn)} .stat.bad b{color:var(--bad)}
-.bars{display:flex;align-items:flex-end;gap:6px;height:120px;margin-top:10px}
+/* Ringkasan */
+.hero{margin:-34px 0 14px;position:relative;background:var(--nv2);border-radius:24px;padding:16px;color:#fff;box-shadow:0 12px 26px rgba(26,20,100,.3)}
+.hero .big{display:flex;align-items:flex-end;gap:12px}
+.hero .big b{font-size:56px;line-height:1;color:var(--yl);font-weight:700}
+.hero .big span{padding-bottom:6px;font-size:14px}
+.minis{display:flex;gap:8px;margin-top:12px}
+.minis div{flex:1;background:rgba(255,255,255,.12);border-radius:14px;padding:9px 10px;display:flex;flex-direction:column}
+.minis b{font-size:20px;font-weight:700}.minis small{font-size:11px;color:#E4E1FF}
+.minis .r b{color:#FFB4B4}
+.bars{display:flex;align-items:flex-end;gap:6px;height:128px;margin-top:6px}
 .bars .c{flex:1;display:flex;flex-direction:column;align-items:center;justify-content:flex-end;height:100%}
-.bars .b{display:flex;gap:2px;align-items:flex-end;width:100%;height:96px}
-.bars .b i{flex:1;border-radius:4px 4px 0 0;min-height:2px}
-.bars .a{background:var(--pri)} .bars .s{background:#94a3b8}
-.bars small{font-size:10.5px;color:var(--mut);margin-top:4px}
-.legend{font-size:12px;color:var(--mut);margin-top:8px}
+.bars .b{display:flex;gap:3px;align-items:flex-end;width:100%;height:100px;justify-content:center}
+.bars i{width:9px;border-radius:4px 4px 0 0;min-height:3px}
+.bars .a{background:var(--nv)}.bars .s{background:var(--yl)}
+.bars small{font-size:11px;color:var(--mu);margin-top:5px}
+.legend{font-size:12px;color:var(--mu);margin-top:6px}
 .legend i{display:inline-block;width:10px;height:10px;border-radius:3px;margin:0 4px 0 10px;vertical-align:middle}
-.lst div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid var(--line);font-size:14px;gap:8px}
+.pills{display:flex;flex-wrap:wrap;gap:8px}
+.pills span{background:#fff;border:2px solid var(--ln);border-radius:99px;padding:7px 13px;font-size:13px;font-weight:500}
+.pills b{color:var(--nv)}
+.tgbox{background:#FDE8E8;border-radius:20px;padding:14px;margin-bottom:14px}
+.tgbox h2{color:var(--rc);margin:0 0 6px;font-size:14px;display:flex;align-items:center;gap:8px}
+.lst div{display:flex;justify-content:space-between;padding:8px 0;border-bottom:1px solid rgba(0,0,0,.06);font-size:13.5px;gap:8px}
 .lst div:last-child{border:0}
 
-/* Nav */
-nav{position:fixed;left:0;right:0;bottom:0;background:#fff;border-top:1px solid var(--line);display:flex;z-index:30;padding-bottom:env(safe-area-inset-bottom)}
-nav button{flex:1;border:0;background:none;padding:9px 2px 8px;font:inherit;font-size:11.5px;color:var(--mut);display:flex;flex-direction:column;align-items:center;gap:2px}
-nav button .i{font-size:20px;line-height:1}
-nav button.on{color:var(--pri-d);font-weight:700}
-footer{text-align:center;color:var(--mut);font-size:11.5px;padding:6px 12px 14px}
-
-/* Toast & modal */
-#toast{position:fixed;left:50%;bottom:calc(90px + env(safe-area-inset-bottom));transform:translateX(-50%);background:#0f172a;color:#fff;padding:11px 18px;border-radius:99px;font-size:14px;z-index:60;max-width:90%;text-align:center}
-#toast.ok{background:var(--ok)} #toast.bad{background:var(--bad)}
-.modal{position:fixed;inset:0;background:rgba(15,23,42,.75);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
-.modal .box{background:#fff;border-radius:16px;padding:14px;width:100%;max-width:420px}
-#scanBox{width:100%;min-height:240px;border-radius:10px;overflow:hidden;background:#000}
+footer{text-align:center;color:var(--mu);font-size:11.5px;padding:8px 12px 4px}
+#toast{position:fixed;left:50%;bottom:calc(24px + env(safe-area-inset-bottom));transform:translateX(-50%);background:var(--ink);color:#fff;padding:12px 20px;border-radius:99px;font-size:14px;z-index:60;max-width:90%;text-align:center}
+#toast.ok{background:var(--ok)} #toast.bad{background:var(--rc)}
+.modal{position:fixed;inset:0;background:rgba(20,18,58,.8);z-index:50;display:flex;align-items:center;justify-content:center;padding:16px}
+.modal .box{background:#fff;border-radius:22px;padding:14px;width:100%;max-width:520px}
+#scanBox{width:100%;min-height:240px;border-radius:14px;overflow:hidden;background:#000}
+#scanBox video{object-fit:cover}
 </style>
 </head>
 <body>
 
 <!-- ============ LOG MASUK ============ -->
 <section id="login" class="hidden">
-  <div class="logos"><img src="logo-mrsm.png" alt="Logo MRSM" onerror="this.remove()"><img src="logo-koperasi.png" alt="Logo Koperasi MRSM SAS" onerror="this.remove()"></div>
-  <h1>eParcel Koperasi</h1>
-  <p class="sub">MRSM Sultan Azlan Shah</p>
-  <div class="card">
-    <label style="margin-top:0">ID Pengguna</label>
-    <input id="lgId" autocomplete="username" autocapitalize="none">
-    <label>Kata Laluan</label>
-    <input id="lgPw" type="password" autocomplete="current-password">
-    <div id="lgErr" class="err hidden"></div>
-    <button class="btn" id="lgBtn" style="margin-top:16px">Log Masuk</button>
+  <header>
+    <span class="chip"><img src="logo-koperasi.png" alt="Logo Koperasi MRSM SAS" onerror="this.remove()"></span>
+    <div class="ht"><h1>eParcel Koperasi</h1><p>Koperasi MRSM Sultan Azlan Shah</p></div>
+  </header>
+  <div class="box">
+    <div class="card">
+      <label style="margin-top:0" for="lgId">ID Pengguna</label>
+      <input id="lgId" autocomplete="username" autocapitalize="none">
+      <label for="lgPw">Kata Laluan</label>
+      <input id="lgPw" type="password" autocomplete="current-password">
+      <div id="lgErr" class="err hidden"></div>
+      <button class="btn" id="lgBtn" style="margin-top:18px">Log Masuk</button>
+    </div>
+    <footer>Dibangunkan Oleh Unit KIK dan Unit ICT MRSM SAS 2026</footer>
   </div>
-  <footer>Dibangunkan Oleh Unit KIK dan Unit ICT MRSM SAS 2026</footer>
 </section>
 
 <!-- ============ APLIKASI ============ -->
 <div id="app" class="hidden">
-  <header>
-    <div class="logos"><img src="logo-mrsm.png" alt="Logo MRSM" onerror="this.remove()"><img src="logo-koperasi.png" alt="Logo Koperasi MRSM SAS" onerror="this.remove()"></div>
-    <h1>eParcel Koperasi</h1>
-    <div class="userbar"><span id="uNama"></span><span class="chip" id="uPeranan"></span></div>
+  <header id="hd" class="tall">
+    <div class="hrow">
+      <div class="hl">
+        <button class="bk hidden" id="back" aria-label="Kembali"><span data-ic="back" data-s="22"></span></button>
+        <span class="chip"><img src="logo-koperasi.png" alt="Logo Koperasi MRSM SAS" onerror="this.remove()"></span>
+      </div>
+      <button class="uchip" id="uBtn" aria-label="Akaun"></button>
+    </div>
+    <div class="ht"><h1 id="hT"></h1><p id="hS"></p></div>
   </header>
 
   <main>
+    <!-- MENU UTAMA -->
+    <section id="v-home">
+      <button class="cta" id="ctaScan">
+        <span class="ci"><span data-ic="scan" data-s="28"></span></span>
+        <span><b>Imbas Parcel</b><small>Terima atau serah dengan kamera</small></span>
+      </button>
+      <div class="tiles">
+        <button class="tile" data-go="terima"><span class="bd" id="bdT">–</span><span class="ti"><span data-ic="in" data-s="26"></span></span><span><b>Terima</b><small>Rekod parcel baharu</small></span></button>
+        <button class="tile" data-go="serah"><span class="bd" id="bdS">–</span><span class="ti"><span data-ic="out" data-s="26"></span></span><span><b>Serah</b><small>Beri kepada penerima</small></span></button>
+        <button class="tile" data-go="senarai"><span class="bd" id="bdL">–</span><span class="ti"><span data-ic="list" data-s="26"></span></span><span><b>Senarai</b><small>Cari &amp; tapis</small></span></button>
+        <button class="tile" data-go="dash"><span class="bd hot hidden" id="bdD"></span><span class="ti"><span data-ic="chart" data-s="26"></span></span><span><b>Ringkasan</b><small>Statistik &amp; laporan</small></span></button>
+      </div>
+      <button class="alert hidden" id="hAlert" data-go="dash">
+        <span data-ic="warn" data-s="26"></span>
+        <span><b id="hAlertT"></b><small>Belum diambil melebihi tempoh. Hubungi penerima.</small></span>
+      </button>
+    </section>
+
     <!-- TERIMA -->
-    <section id="v-terima">
+    <section id="v-terima" class="hidden">
+      <div class="stepper" id="stepper">
+        <div id="st1"><i>1</i>Imbas</div><div id="st2"><i>2</i>Penerima</div><div id="st3"><i>3</i>Simpan</div>
+      </div>
       <div class="card">
-        <h2>📥 Terima Parcel Baharu</h2>
-        <button class="btn big" data-scan="tTrk">📷 Imbas Barcode Parcel</button>
-        <label>No. Tracking</label>
-        <input id="tTrk" placeholder="Terisi automatik selepas imbas, atau taip manual" autocapitalize="characters" autocomplete="off" inputmode="text">
+        <button class="btn nv" data-scan="tTrk"><span data-ic="scan" data-s="22"></span>Imbas Barcode Parcel</button>
+        <label for="tTrk">No. Tracking</label>
+        <input id="tTrk" placeholder="Terisi automatik selepas imbas, atau taip" autocapitalize="characters" autocomplete="off">
         <div class="hint">Kamera belakang telefon digunakan. Pastikan barcode jelas dan cukup cahaya.</div>
 
-        <label>Kurier</label>
+        <label for="tKurier">Kurier</label>
         <select id="tKurier"></select>
 
         <label>Jenis Penerima</label>
-        <div class="seg" id="tJenis">
-          <button class="on" data-v="Pelajar">Pelajar</button>
-          <button data-v="Staf">Staf</button>
-        </div>
+        <div class="seg" id="tJenis"><button class="on" data-v="Pelajar">Pelajar</button><button data-v="Staf">Staf</button></div>
 
-        <label>Cari Penerima (nama / No. KP / No. Gaji)</label>
+        <label for="tCari">Cari penerima (nama / No. KP / No. Gaji)</label>
         <input id="tCari" placeholder="Taip sekurang-kurangnya 2 aksara" autocomplete="off">
         <div id="tSugg" class="sugg hidden"></div>
 
-        <label>Nama Penerima</label>
+        <label for="tNama">Nama Penerima</label>
         <input id="tNama" autocomplete="off">
         <div class="row">
-          <div><label id="lblId">No. KP</label><input id="tId" autocomplete="off"></div>
-          <div><label id="lblKU">Kelas / Asrama</label><input id="tKU" autocomplete="off"></div>
+          <div><label id="lblId" for="tId">No. KP</label><input id="tId" autocomplete="off"></div>
+          <div><label id="lblKU" for="tKU">Kelas / Asrama</label><input id="tKU" autocomplete="off"></div>
         </div>
-        <label>No. Telefon (pilihan)</label>
+        <label for="tTel">No. Telefon (pilihan)</label>
         <input id="tTel" inputmode="tel" autocomplete="off">
-        <label>Catatan (pilihan)</label>
+        <label for="tCat">Catatan (pilihan)</label>
         <textarea id="tCat" placeholder="cth: kotak besar, COD RM25"></textarea>
-        <button class="btn" id="tSimpan" style="margin-top:16px">Simpan Parcel</button>
+        <button class="btn" id="tSimpan" style="margin-top:18px"><span data-ic="check" data-s="22"></span>Simpan Parcel</button>
       </div>
     </section>
 
     <!-- SERAH -->
     <section id="v-serah" class="hidden">
       <div class="card">
-        <h2>📤 Serahan Parcel</h2>
-        <button class="btn big" data-scan="sCari">📷 Imbas Barcode Parcel</button>
-        <label>Atau cari manual</label>
+        <button class="btn nv" data-scan="sCari"><span data-ic="scan" data-s="22"></span>Imbas Barcode Parcel</button>
+        <label for="sCari">Atau cari manual</label>
         <input id="sCari" placeholder="No. tracking / nama / No. KP" autocomplete="off">
-        <div id="sHasil" style="margin-top:10px"></div>
+        <div id="sHasil" style="margin-top:12px"></div>
       </div>
       <div class="card hidden" id="sPilih">
         <h2>Butiran Serahan</h2>
         <div id="sInfo"></div>
-        <label>Nama Pengambil</label>
+        <label for="sPengambil">Nama Pengambil</label>
         <input id="sPengambil" autocomplete="off">
         <div class="hint">Lalai: nama penerima. Tukar jika orang lain mengambil bagi pihak penerima.</div>
-        <label>Catatan (pilihan)</label>
+        <label for="sCat">Catatan (pilihan)</label>
         <textarea id="sCat"></textarea>
-        <button class="btn" id="sBtn" style="margin-top:16px">Sahkan Serahan</button>
-        <button class="btn sec" id="sBatal" style="margin-top:8px">Batal</button>
+        <button class="btn" id="sBtn" style="margin-top:18px"><span data-ic="check" data-s="22"></span>Sahkan Serahan</button>
+        <button class="btn sec" id="sBatal" style="margin-top:10px">Batal</button>
       </div>
     </section>
 
     <!-- SENARAI -->
     <section id="v-senarai" class="hidden">
       <div class="card">
-        <h2>📋 Senarai Parcel</h2>
         <div class="seg" id="fStatus">
-          <button class="on" data-v="Diterima">Belum Diambil</button>
-          <button data-v="Diserahkan">Telah Diserah</button>
-          <button data-v="">Semua</button>
+          <button class="on" data-v="Diterima">Belum Diambil</button><button data-v="Diserahkan">Telah Diserah</button><button data-v="">Semua</button>
         </div>
-        <input id="fQ" placeholder="Cari tracking / nama / No. KP" style="margin-top:10px" autocomplete="off">
+        <input id="fQ" placeholder="Cari tracking / nama / No. KP" style="margin-top:12px" autocomplete="off" aria-label="Cari">
         <div class="row" style="margin-top:8px">
-          <select id="fKurier"><option value="">Semua kurier</option></select>
-          <input id="fDari" type="date" title="Dari">
-          <input id="fHingga" type="date" title="Hingga">
+          <select id="fKurier" aria-label="Kurier"><option value="">Semua kurier</option></select>
         </div>
-        <div class="row" style="margin-top:10px">
-          <button class="btn" id="fCari">Tapis</button>
+        <div class="row" style="margin-top:8px">
+          <input id="fDari" type="date" title="Dari" aria-label="Dari tarikh"><input id="fHingga" type="date" title="Hingga" aria-label="Hingga tarikh">
+        </div>
+        <div class="row" style="margin-top:12px">
+          <button class="btn nv" id="fCari">Tapis</button>
           <button class="btn sec" id="fCsv">⬇ CSV</button>
         </div>
       </div>
@@ -218,43 +271,51 @@ footer{text-align:center;color:var(--mut);font-size:11.5px;padding:6px 12px 14px
       <div id="fList"></div>
     </section>
 
-    <!-- DASHBOARD -->
+    <!-- RINGKASAN -->
     <section id="v-dash" class="hidden">
-      <div class="card">
-        <h2>📊 Ringkasan</h2>
-        <div class="grid" id="dStat"></div>
+      <div class="hero">
+        <div class="big"><b id="dMenunggu">0</b><span>parcel belum diambil</span></div>
+        <div class="minis">
+          <div><b id="dT">0</b><small>Diterima hari ini</small></div>
+          <div><b id="dS">0</b><small>Diserah hari ini</small></div>
+          <div class="r"><b id="dTg">0</b><small id="dTgL">Tertunggak</small></div>
+        </div>
       </div>
       <div class="card">
         <h2>7 Hari Terakhir</h2>
         <div class="bars" id="dBars"></div>
-        <div class="legend"><i class="a" style="background:var(--pri)"></i>Diterima<i style="background:#94a3b8"></i>Diserahkan</div>
+        <div class="legend"><i style="background:var(--nv)"></i>Diterima<i style="background:var(--yl)"></i>Diserahkan</div>
       </div>
       <div class="card">
         <h2>Belum Diambil Ikut Kurier</h2>
-        <div class="lst" id="dKurier"></div>
+        <div class="pills" id="dKurier"></div>
+      </div>
+      <div class="tgbox hidden" id="dTgBox">
+        <h2><span data-ic="warn" data-s="20"></span><span id="dTgTitle">Tertunggak</span></h2>
+        <div class="lst" id="dTgList"></div>
       </div>
       <div class="card">
-        <h2 id="dTgTitle">Tertunggak</h2>
-        <div class="lst" id="dTg"></div>
+        <h2>Bulan Ini</h2>
+        <div class="pills"><span>Diterima <b id="dBT">0</b></span><span>Diserahkan <b id="dBS">0</b></span></div>
       </div>
     </section>
 
     <!-- AKAUN -->
     <section id="v-akaun" class="hidden">
       <div class="card">
-        <h2>🔑 Tukar Kata Laluan</h2>
-        <label style="margin-top:0">Kata laluan semasa</label><input id="kLama" type="password" autocomplete="current-password">
-        <label>Kata laluan baharu (min 6 aksara)</label><input id="kBaru" type="password" autocomplete="new-password">
-        <button class="btn" id="kBtn" style="margin-top:14px">Simpan</button>
+        <h2>Tukar Kata Laluan</h2>
+        <label style="margin-top:0" for="kLama">Kata laluan semasa</label><input id="kLama" type="password" autocomplete="current-password">
+        <label for="kBaru">Kata laluan baharu (min 6 aksara)</label><input id="kBaru" type="password" autocomplete="new-password">
+        <button class="btn nv" id="kBtn" style="margin-top:16px">Simpan</button>
       </div>
       <div class="card hidden" id="adminBox">
-        <h2>👤 Tambah Pengguna (Admin)</h2>
-        <label style="margin-top:0">ID Pengguna</label><input id="pId" autocomplete="off">
-        <label>Nama</label><input id="pNama" autocomplete="off">
-        <label>Kata laluan awal</label><input id="pKl" type="text" autocomplete="off">
-        <label>Peranan</label>
+        <h2>Tambah Pengguna (Admin)</h2>
+        <label style="margin-top:0" for="pId">ID Pengguna</label><input id="pId" autocomplete="off">
+        <label for="pNama">Nama</label><input id="pNama" autocomplete="off">
+        <label for="pKl">Kata laluan awal</label><input id="pKl" type="text" autocomplete="off">
+        <label for="pPeranan">Peranan</label>
         <select id="pPeranan"><option>Staf</option><option>Admin</option></select>
-        <button class="btn" id="pBtn" style="margin-top:14px">Tambah</button>
+        <button class="btn nv" id="pBtn" style="margin-top:16px">Tambah</button>
         <div class="lst" id="pList" style="margin-top:12px"></div>
       </div>
       <button class="btn bad" id="logoutBtn">Log Keluar</button>
@@ -262,21 +323,13 @@ footer{text-align:center;color:var(--mut);font-size:11.5px;padding:6px 12px 14px
 
     <footer>Dibangunkan Oleh Unit KIK dan Unit ICT MRSM SAS 2026</footer>
   </main>
-
-  <nav>
-    <button data-tab="terima" class="on"><span class="i">📥</span>Terima</button>
-    <button data-tab="serah"><span class="i">📤</span>Serah</button>
-    <button data-tab="senarai"><span class="i">📋</span>Senarai</button>
-    <button data-tab="dash"><span class="i">📊</span>Dashboard</button>
-    <button data-tab="akaun"><span class="i">👤</span>Akaun</button>
-  </nav>
 </div>
 
 <!-- Pengimbas kamera -->
 <div id="scanModal" class="modal hidden">
   <div class="box">
     <div id="scanBox"></div>
-    <div class="hint" style="margin:8px 0">Halakan kamera pada barcode / QR parcel.</div>
+    <div class="hint" style="margin:8px 0 10px">Halakan kamera pada barcode / QR parcel.</div>
     <button class="btn sec" id="scanClose">Tutup</button>
   </div>
 </div>
@@ -284,16 +337,28 @@ footer{text-align:center;color:var(--mut);font-size:11.5px;padding:6px 12px 14px
 
 <script>
 /* ============ KONFIGURASI ============ */
-const API_URL  = 'https://script.google.com/macros/s/AKfycbzW_hulRGFZ7acUkOxrtWqr7XkZXKIeTvo5cINB0R1KObH6pA1jcclUlYjKqpYId0-3/exec';   // URL deployment Apps Script
-const KURIER   = ['J&T Express','Pos Laju','Shopee Express (SPX)','Flash Express','Ninja Van','GDEX','DHL','City-Link','Lazada Express','Lain-lain'];
+const API_URL = 'https://script.google.com/macros/s/AKfycbzW_hulRGFZ7acUkOxrtWqr7XkZXKIeTvo5cINB0R1KObH6pA1jcclUlYjKqpYId0-3/exec';
+const KURIER  = ['J&T Express','Pos Laju','Shopee Express (SPX)','Flash Express','Ninja Van','GDEX','DHL','City-Link','Lazada Express','Lain-lain'];
+const HARI_TG = 7;
 
 /* ============ ASAS ============ */
 const $ = id => document.getElementById(id);
 const S = { token: sessionStorage.getItem('ep_token') || '', user: JSON.parse(sessionStorage.getItem('ep_user') || 'null'),
-            jenis: 'Pelajar', status: 'Diterima', senarai: [], dipilih: null };
+            jenis: 'Pelajar', status: 'Diterima', senarai: [], dipilih: null, view: 'home' };
 
 const esc = s => String(s == null ? '' : s).replace(/[&<>"']/g, c => ({'&':'&amp;','<':'&lt;','>':'&gt;','"':'&quot;',"'":'&#39;'}[c]));
 const debounce = (fn, ms) => { let t; return (...a) => { clearTimeout(t); t = setTimeout(() => fn(...a), ms); }; };
+
+const IKON = {
+  scan:'<path d="M4 8V5a1 1 0 0 1 1-1h3M16 4h3a1 1 0 0 1 1 1v3M20 16v3a1 1 0 0 1-1 1h-3M8 20H5a1 1 0 0 1-1-1v-3M4 12h16"/>',
+  in:'<path d="M12 4v10m0 0-4-4m4 4 4-4M5 19h14"/>', out:'<path d="M12 15V5m0 0-4 4m4-4 4 4M5 19h14"/>',
+  list:'<path d="M9 6h11M9 12h11M9 18h11M4.5 6h.01M4.5 12h.01M4.5 18h.01"/>', chart:'<path d="M5 20V11M12 20V4M19 20v-6"/>',
+  check:'<path d="m5 12.5 4.5 4.5L19 7"/>', back:'<path d="m14 6-6 6 6 6"/>', warn:'<path d="M12 4 3 20h18L12 4ZM12 10v4M12 17h.01"/>'
+};
+document.querySelectorAll('[data-ic]').forEach(el => {
+  const s = el.dataset.s || 22;
+  el.outerHTML = `<svg width="${s}" height="${s}" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true">${IKON[el.dataset.ic]}</svg>`;
+});
 
 function toast(msg, jenis) {
   const t = $('toast'); t.textContent = msg; t.className = jenis || ''; t.classList.remove('hidden');
@@ -303,11 +368,8 @@ function toast(msg, jenis) {
 async function api(action, data) {
   let res;
   try {
-    res = await fetch(API_URL, {
-      method: 'POST',
-      headers: { 'Content-Type': 'text/plain;charset=utf-8' },
-      body: JSON.stringify(Object.assign({ action: action, token: S.token }, data || {}))
-    });
+    res = await fetch(API_URL, { method: 'POST', headers: { 'Content-Type': 'text/plain;charset=utf-8' },
+      body: JSON.stringify(Object.assign({ action: action, token: S.token }, data || {})) });
   } catch (e) { throw new Error('Tiada sambungan internet / pelayan'); }
   const j = await res.json();
   if (!j.ok) {
@@ -318,10 +380,10 @@ async function api(action, data) {
 }
 
 async function jalan(btn, fn) {
-  const asal = btn.textContent; btn.disabled = true; btn.textContent = 'Sila tunggu…';
+  const asal = btn.innerHTML; btn.disabled = true; btn.textContent = 'Sila tunggu…';
   try { return await fn(); }
   catch (e) { toast(e.message, 'bad'); }
-  finally { btn.disabled = false; btn.textContent = asal; }
+  finally { btn.disabled = false; btn.innerHTML = asal; }
 }
 
 /* ============ LOG MASUK ============ */
@@ -330,9 +392,9 @@ function papar() {
   $('login').classList.toggle('hidden', masuk);
   $('app').classList.toggle('hidden', !masuk);
   if (masuk) {
-    $('uNama').textContent = S.user.nama; $('uPeranan').textContent = S.user.peranan;
+    $('uBtn').textContent = S.user.nama;
     $('adminBox').classList.toggle('hidden', S.user.peranan !== 'Admin');
-    tab('terima');
+    tab('home');
   }
 }
 
@@ -355,17 +417,35 @@ function keluar(senyap) {
 $('logoutBtn').onclick = () => keluar(false);
 
 /* ============ NAVIGASI ============ */
+const TAJUK = {
+  home:   ['eParcel Koperasi', 'Koperasi MRSM Sultan Azlan Shah'],
+  terima: ['Terima Parcel', 'Imbas barcode, pilih penerima, simpan'],
+  serah:  ['Serahan Parcel', 'Cari atau imbas parcel, sahkan pengambil'],
+  senarai:['Senarai Parcel', 'Cari dan tapis rekod'],
+  dash:   ['Ringkasan', new Date().toLocaleDateString('ms-MY', { weekday: 'long', day: 'numeric', month: 'short', year: 'numeric' })],
+  akaun:  ['Akaun', '']
+};
+const NAMA_VIEW = ['home','terima','serah','senarai','dash','akaun'];
+
 function tab(nama) {
-  ['terima','serah','senarai','dash','akaun'].forEach(t => $('v-' + t).classList.toggle('hidden', t !== nama));
-  document.querySelectorAll('nav button').forEach(b => b.classList.toggle('on', b.dataset.tab === nama));
+  S.view = nama;
+  NAMA_VIEW.forEach(t => $('v-' + t).classList.toggle('hidden', t !== nama));
+  const t = TAJUK[nama].slice(); if (nama === 'akaun' && S.user) t[1] = S.user.nama + ' · ' + S.user.peranan;
+  $('hT').textContent = t[0]; $('hS').textContent = t[1];
+  const tinggi = ['home','terima','dash'].includes(nama);   // tajuk tinggi supaya kad boleh bertindih
+  $('hd').classList.toggle('tall', tinggi);
+  $('back').classList.toggle('hidden', nama === 'home');
   window.scrollTo(0, 0);
+  if (nama === 'home') muatHome();
   if (nama === 'senarai') muatSenarai();
   if (nama === 'dash') muatDash();
   if (nama === 'akaun' && S.user && S.user.peranan === 'Admin') muatPengguna();
-  if (nama === 'terima') setTimeout(() => $('tTrk').focus(), 50);
-  if (nama === 'serah') setTimeout(() => $('sCari').focus(), 50);
+  if (nama === 'terima') kemasStep();
+  if (nama === 'serah') setTimeout(() => $('sCari').focus(), 60);
 }
-document.querySelectorAll('nav button').forEach(b => b.onclick = () => tab(b.dataset.tab));
+$('back').onclick = () => tab('home');
+$('uBtn').onclick = () => tab('akaun');
+document.querySelectorAll('[data-go]').forEach(b => b.onclick = () => tab(b.dataset.go));
 
 function segmen(id, cb) {
   $(id).querySelectorAll('button').forEach(b => b.onclick = () => {
@@ -373,19 +453,49 @@ function segmen(id, cb) {
   });
 }
 
+/* ============ MENU UTAMA ============ */
+async function muatHome() {
+  try {
+    const d = await api('dashboard');
+    $('bdT').textContent = d.terimaHariIni + ' hari ini';
+    $('bdS').textContent = d.menunggu;
+    $('bdL').textContent = d.terimaBulanIni;
+    $('bdD').classList.toggle('hidden', !d.tertunggak); $('bdD').textContent = d.tertunggak + ' lewat';
+    $('hAlert').classList.toggle('hidden', !d.tertunggak);
+    $('hAlertT').textContent = d.tertunggak + ' parcel tertunggak';
+  } catch (e) { /* menu tetap boleh digunakan tanpa angka */ }
+}
+
+/* Imbas pintar: parcel sudah direkod → terus ke Serah; belum → ke Terima dengan no. tracking terisi */
+$('ctaScan').onclick = () => bukaScan('pintar');
+
+async function imbasPintar(kod) {
+  try {
+    const r = await api('senarai', { filter: { status: 'Diterima', q: kod } });
+    const tepat = r.rows.filter(p => String(p.NoTracking).toLowerCase() === kod.toLowerCase());
+    if (tepat.length === 1) { tab('serah'); pilihSerah(tepat[0]); toast('Parcel ditemui, sahkan serahan', 'ok'); }
+    else { tab('terima'); $('tTrk').value = kod; kemasStep(); $('tCari').focus(); }
+  } catch (e) { toast(e.message, 'bad'); }
+}
+
 /* ============ TERIMA ============ */
 $('tKurier').innerHTML = KURIER.map(k => `<option>${esc(k)}</option>`).join('');
 $('fKurier').innerHTML += KURIER.map(k => `<option>${esc(k)}</option>`).join('');
+
+function kemasStep(simpan) {
+  const a = !!$('tTrk').value.trim(), b = !!$('tNama').value.trim();
+  const st = simpan ? ['done','done','done'] : [a ? 'done' : 'act', a ? (b ? 'done' : 'act') : '', a && b ? 'act' : ''];
+  ['st1','st2','st3'].forEach((id, i) => { $(id).className = st[i]; });
+}
+['tTrk','tNama'].forEach(i => $(i).addEventListener('input', () => kemasStep()));
 
 segmen('tJenis', v => {
   S.jenis = v;
   $('lblId').textContent = v === 'Staf' ? 'No. Gaji' : 'No. KP';
   $('lblKU').textContent = v === 'Staf' ? 'Unit' : 'Kelas / Asrama';
-  $('tCari').value = ''; $('tSugg').classList.add('hidden');
-  kosongPenerima();
+  $('tCari').value = ''; $('tSugg').classList.add('hidden'); kosongPenerima();
 });
-
-function kosongPenerima() { ['tNama','tId','tKU','tTel'].forEach(i => $(i).value = ''); }
+function kosongPenerima() { ['tNama','tId','tKU','tTel'].forEach(i => $(i).value = ''); kemasStep(); }
 
 const cariPenerima = debounce(async () => {
   const q = $('tCari').value.trim(); const box = $('tSugg');
@@ -393,27 +503,26 @@ const cariPenerima = debounce(async () => {
   try {
     const r = await api('cariPenerima', { jenis: S.jenis, q: q });
     box.innerHTML = r.length ? r.map((x, i) => `<div data-i="${i}">${esc(x.nama)}<small>${esc(x.id)} · ${esc(x.kelasUnit)}</small></div>`).join('')
-                              : '<div style="color:var(--mut)">Tiada dalam senarai — isi butiran secara manual di bawah.</div>';
+                              : '<div style="color:var(--mu);font-weight:400">Tiada dalam senarai — isi butiran secara manual di bawah.</div>';
     box.classList.remove('hidden');
-    box.querySelectorAll('div[data-i]').forEach(d => d.onclick = () => {
-      const x = r[+d.dataset.i];
+    box.querySelectorAll('div[data-i]').forEach(dv => dv.onclick = () => {
+      const x = r[+dv.dataset.i];
       $('tNama').value = x.nama; $('tId').value = x.id; $('tKU').value = x.kelasUnit; $('tTel').value = x.noTel;
-      box.classList.add('hidden'); $('tCari').value = '';
+      box.classList.add('hidden'); $('tCari').value = ''; kemasStep();
     });
   } catch (e) { toast(e.message, 'bad'); }
 }, 300);
 $('tCari').oninput = cariPenerima;
-
 $('tTrk').onkeydown = e => { if (e.key === 'Enter') { e.preventDefault(); $('tCari').focus(); } };
 
 $('tSimpan').onclick = () => jalan($('tSimpan'), async () => {
   await api('tambahParcel', { parcel: {
     noTracking: $('tTrk').value, kurier: $('tKurier').value, jenis: S.jenis, idPenerima: $('tId').value,
-    nama: $('tNama').value, kelasUnit: $('tKU').value, noTel: $('tTel').value, catatan: $('tCat').value
-  }});
-  toast('Parcel berjaya direkod ✔', 'ok');
+    nama: $('tNama').value, kelasUnit: $('tKU').value, noTel: $('tTel').value, catatan: $('tCat').value } });
+  toast('Parcel berjaya direkod ✔', 'ok'); kemasStep(true);
   ['tTrk','tCari','tCat'].forEach(i => $(i).value = ''); kosongPenerima();   // kurier & jenis kekal untuk kemasukan berturut-turut
-  $('tSugg').classList.add('hidden'); $('tTrk').focus();
+  $('tSugg').classList.add('hidden'); window.scrollTo(0, 0);
+  setTimeout(() => kemasStep(), 900);
 });
 
 /* ============ SERAH ============ */
@@ -423,10 +532,10 @@ const cariSerah = debounce(async () => {
   try {
     const r = await api('senarai', { filter: { status: 'Diterima', q: q } });
     S.senarai = r.rows;
-    box.innerHTML = r.rows.length ? r.rows.slice(0, 20).map((p, i) => kad(p, `<button class="btn sm" data-p="${i}">Pilih</button>`)).join('')
+    box.innerHTML = r.rows.length ? r.rows.slice(0, 20).map((p, i) => kad(p, `<button class="btn sm nv" data-p="${i}">Pilih</button>`)).join('')
                                   : '<div class="empty">Tiada parcel belum diambil yang sepadan.</div>';
     box.querySelectorAll('[data-p]').forEach(b => b.onclick = () => pilihSerah(r.rows[+b.dataset.p]));
-    if (r.rows.length === 1 && /\d{6,}/.test(q)) pilihSerah(r.rows[0]);   // imbasan tepat → terus pilih
+    if (r.rows.length === 1 && /\d{6,}/.test(q)) pilihSerah(r.rows[0]);
   } catch (e) { toast(e.message, 'bad'); }
 }, 350);
 $('sCari').oninput = cariSerah;
@@ -442,13 +551,13 @@ $('sBatal').onclick = () => { S.dipilih = null; $('sPilih').classList.add('hidde
 $('sBtn').onclick = () => jalan($('sBtn'), async () => {
   await api('serah', { id: S.dipilih.ID, namaPengambil: $('sPengambil').value, catatan: $('sCat').value });
   toast('Parcel telah diserahkan ✔', 'ok');
-  S.dipilih = null; $('sPilih').classList.add('hidden'); $('sHasil').innerHTML = ''; $('sCari').value = ''; $('sCari').focus();
+  S.dipilih = null; $('sPilih').classList.add('hidden'); $('sHasil').innerHTML = ''; $('sCari').value = ''; window.scrollTo(0, 0);
 });
 
 /* ============ SENARAI ============ */
 function kad(p, aksi) {
   const dt = p.Status === 'Diterima';
-  const tg = dt && p.umurHari >= 7;
+  const tg = dt && p.umurHari >= HARI_TG;
   const badge = dt ? `<span class="badge ${tg ? 'tg' : 'dt'}">${tg ? 'Tertunggak ' : 'Menunggu '}${p.umurHari}h</span>` : '<span class="badge ds">Diserahkan</span>';
   return `<div class="pc"><div class="t"><div><div class="trk">${esc(p.NoTracking)}</div>
     <div class="meta">${esc(p.Kurier)} · diterima ${esc(String(p.TarikhTerima).slice(0, 16))}</div></div>${badge}</div>
@@ -465,7 +574,7 @@ async function muatSenarai() {
     S.senarai = r.rows;
     $('fInfo').textContent = r.jumlah + ' rekod' + (r.jumlah > r.rows.length ? ` (dipaparkan ${r.rows.length} terkini)` : '');
     $('fList').innerHTML = r.rows.length
-      ? r.rows.map((p, i) => kad(p, p.Status === 'Diterima' ? `<button class="btn sm" data-s="${i}">Serah</button>` : '')).join('')
+      ? r.rows.map((p, i) => kad(p, p.Status === 'Diterima' ? `<button class="btn sm nv" data-s="${i}">Serah</button>` : '')).join('')
       : '<div class="empty">Tiada rekod.</div>';
     $('fList').querySelectorAll('[data-s]').forEach(b => b.onclick = () => { tab('serah'); pilihSerah(r.rows[+b.dataset.s]); });
   } catch (e) { $('fList').innerHTML = ''; toast(e.message, 'bad'); }
@@ -484,29 +593,26 @@ $('fCsv').onclick = () => {
   a.download = 'parcel_' + new Date().toISOString().slice(0, 10) + '.csv'; a.click();
 };
 
-/* ============ DASHBOARD ============ */
+/* ============ RINGKASAN ============ */
 async function muatDash() {
   try {
     const d = await api('dashboard');
-    $('dStat').innerHTML = [
-      ['Diterima hari ini', d.terimaHariIni, ''], ['Diserah hari ini', d.serahHariIni, ''],
-      ['Belum diambil', d.menunggu, 'warn'], ['Tertunggak (≥' + d.hadTertunggak + ' hari)', d.tertunggak, d.tertunggak ? 'bad' : ''],
-      ['Diterima bulan ini', d.terimaBulanIni, ''], ['Diserah bulan ini', d.serahBulanIni, '']
-    ].map(x => `<div class="stat ${x[2]}"><b>${x[1]}</b><span>${x[0]}</span></div>`).join('');
+    $('dMenunggu').textContent = d.menunggu; $('dT').textContent = d.terimaHariIni; $('dS').textContent = d.serahHariIni;
+    $('dTg').textContent = d.tertunggak; $('dTgL').textContent = 'Tertunggak ≥' + d.hadTertunggak + ' hari';
+    $('dBT').textContent = d.terimaBulanIni; $('dBS').textContent = d.serahBulanIni;
 
     const maks = Math.max(1, ...d.trend.map(t => Math.max(t.terima, t.serah)));
     $('dBars').innerHTML = d.trend.map(t => `<div class="c"><div class="b">
-      <i class="a" style="height:${t.terima / maks * 100}%;background:var(--pri)" title="Diterima ${t.terima}"></i>
-      <i class="s" style="height:${t.serah / maks * 100}%;background:#94a3b8" title="Diserah ${t.serah}"></i></div>
+      <i class="a" style="height:${t.terima / maks * 100}%" title="Diterima ${t.terima}"></i>
+      <i class="s" style="height:${t.serah / maks * 100}%" title="Diserah ${t.serah}"></i></div>
       <small>${t.tarikh.slice(8)}/${t.tarikh.slice(5, 7)}</small></div>`).join('');
 
     const k = Object.keys(d.ikutKurier).sort((a, b) => d.ikutKurier[b] - d.ikutKurier[a]);
-    $('dKurier').innerHTML = k.length ? k.map(n => `<div><span>${esc(n)}</span><b>${d.ikutKurier[n]}</b></div>`).join('') : '<div class="empty">Tiada parcel menunggu 🎉</div>';
+    $('dKurier').innerHTML = k.length ? k.map(n => `<span>${esc(n)} <b>${d.ikutKurier[n]}</b></span>`).join('') : '<div class="empty" style="width:100%">Tiada parcel menunggu 🎉</div>';
 
-    $('dTgTitle').textContent = '⚠ Tertunggak (≥' + d.hadTertunggak + ' hari)';
-    $('dTg').innerHTML = d.tertunggakSenarai.length
-      ? d.tertunggakSenarai.map(p => `<div><span>${esc(p.nama)}<br><small style="color:var(--mut)">${esc(p.noTracking)} · ${esc(p.kelasUnit)}</small></span><b style="color:var(--bad)">${p.umurHari}h</b></div>`).join('')
-      : '<div class="empty">Tiada parcel tertunggak</div>';
+    $('dTgBox').classList.toggle('hidden', !d.tertunggakSenarai.length);
+    $('dTgTitle').textContent = 'Tertunggak ' + d.hadTertunggak + ' hari ke atas';
+    $('dTgList').innerHTML = d.tertunggakSenarai.map(p => `<div><span>${esc(p.nama)}<br><small style="color:var(--mu)">${esc(p.noTracking)} · ${esc(p.kelasUnit)}</small></span><b style="color:var(--rc)">${p.umurHari} hari</b></div>`).join('');
   } catch (e) { toast(e.message, 'bad'); }
 }
 
@@ -518,7 +624,7 @@ $('kBtn').onclick = () => jalan($('kBtn'), async () => {
 async function muatPengguna() {
   try {
     const r = await api('senaraiPengguna');
-    $('pList').innerHTML = r.map(u => `<div><span>${esc(u.nama)}<br><small style="color:var(--mut)">${esc(u.id)}</small></span><span class="chip">${esc(u.peranan)}</span></div>`).join('');
+    $('pList').innerHTML = r.map(u => `<div><span>${esc(u.nama)}<br><small style="color:var(--mu)">${esc(u.id)}</small></span><span class="badge dt">${esc(u.peranan)}</span></div>`).join('');
   } catch (e) { toast(e.message, 'bad'); }
 }
 $('pBtn').onclick = () => jalan($('pBtn'), async () => {
@@ -528,26 +634,28 @@ $('pBtn').onclick = () => jalan($('pBtn'), async () => {
 
 /* ============ PENGIMBAS KAMERA ============ */
 let pengimbas = null, sasaran = null;
-document.querySelectorAll('[data-scan]').forEach(b => b.onclick = async () => {
-  sasaran = b.dataset.scan; $('scanModal').classList.remove('hidden');
+async function bukaScan(target) {
+  sasaran = target; $('scanModal').classList.remove('hidden');
   try {
     const F = Html5QrcodeSupportedFormats;
     pengimbas = new Html5Qrcode('scanBox', {
       formatsToSupport: [F.CODE_128, F.CODE_39, F.EAN_13, F.EAN_8, F.ITF, F.CODABAR, F.UPC_A, F.QR_CODE, F.DATA_MATRIX],
-      experimentalFeatures: { useBarCodeDetector: true },   // guna pengesan asli Android/Chrome jika ada (lebih pantas)
-      verbose: false
+      experimentalFeatures: { useBarCodeDetector: true }, verbose: false
     });
     await pengimbas.start({ facingMode: 'environment' }, {
-      fps: 15,
-      qrbox: (w, h) => ({ width: Math.floor(w * 0.9), height: Math.floor(Math.min(h, w) * 0.4) }),
+      fps: 15, qrbox: (w, h) => ({ width: Math.floor(w * 0.9), height: Math.floor(Math.min(h, w) * 0.4) }),
       videoConstraints: { facingMode: 'environment', width: { ideal: 1280 }, height: { ideal: 720 }, focusMode: 'continuous' }
     }, teks => {
-      const el = $(sasaran); el.value = teks.replace(/\s+/g, ''); tutupScan();
-      el.dispatchEvent(new Event('input')); if (navigator.vibrate) navigator.vibrate(80);
-      if (sasaran === 'tTrk') $('tCari').focus();
+      const kod = teks.replace(/\s+/g, ''); const sas = sasaran;
+      tutupScan();
+      if (navigator.vibrate) navigator.vibrate(80);
+      if (sas === 'pintar') return imbasPintar(kod);
+      const el = $(sas); el.value = kod; el.dispatchEvent(new Event('input'));
+      if (sas === 'tTrk') $('tCari').focus();
     }, () => {});
   } catch (e) { tutupScan(); toast('Kamera tidak dapat dibuka. Semak kebenaran kamera (perlu HTTPS).', 'bad'); }
-});
+}
+document.querySelectorAll('[data-scan]').forEach(b => b.onclick = () => bukaScan(b.dataset.scan));
 async function tutupScan() {
   try { if (pengimbas) { await pengimbas.stop(); pengimbas.clear(); } } catch (e) {}
   pengimbas = null; $('scanModal').classList.add('hidden');
